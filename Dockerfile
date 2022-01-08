@@ -1,4 +1,4 @@
-FROM python:latest-slim
+FROM python:3
 
 # install system dependencies
 RUN apt update && \
