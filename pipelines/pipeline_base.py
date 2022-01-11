@@ -19,7 +19,7 @@ class PipelineBase:
 
     def execute(self):
         logger.info(f'START PIPELINE {self.pipeline_name}')
-
+        
         for task in self.tasks:
             if isinstance(task, list):
                 logger.debug(f'parallel execution of [{", ".join(t.__name__ for t in task)}]')

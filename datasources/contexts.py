@@ -10,6 +10,7 @@ class Contexts:
 
     @staticmethod
     def __import_contexts(input_contexts_path):
+        print('reading input_contexts_path',input_contexts_path)
         contexts = pd.read_csv(input_contexts_path,
                                dtype={
                                    'name': str,

@@ -29,6 +29,7 @@ class Orchestrator:
 
         pipeline_1 = [ContextHarvesting, NetworkCreation, NetworkMetrics, CommunityDetection, CommunityDetectionMetrics,
                       ProfileMetrics, UserContextMetrics, Persistence]
+        
         for context_name in self.datasources.contexts.get_context_names():
             logger.info(f'EXEC pipeline for {context_name}')
             for p in pipeline_1:

@@ -72,7 +72,7 @@ class ContextHarvesting(PipelineBase):
         ]
         tasks = [self.__create_context, self.__harvest_context, self.__expand_context]
         self.context_name = context_name
-        super(ContextHarvesting, self).__init__('context_harvesting', files, tasks, datasources)
+        super().__init__('context_harvesting', files, tasks, datasources)
 
     def __create_context(self):
         if not self.datasources.files.exists(
@@ -85,7 +85,13 @@ class ContextHarvesting(PipelineBase):
         if not self.datasources.files.exists(
                 'context_harvesting', 'harvest_context', 'stream', 'json', self.context_name):
             context = self.datasources.contexts.get_context(self.context_name)
+
             context_record = context.to_dict('records')[0]
+            
+            print('----------harvest context-------')
+            print(context)
+            print(context_record)
+            print('--------------')            
 
             stream = self.datasources.tw_api.premium_search_auto(query=' OR '.join(context_record['hashtags']),
                                                                  since=context_record['start_date'],
@@ -99,11 +105,15 @@ class ContextHarvesting(PipelineBase):
                 'context_harvesting', 'harvest_context', 'stream_expanded', 'csv', self.context_name):
             stream = self.datasources.files.read(
                 'context_harvesting', 'harvest_context', 'stream', 'json', self.context_name)
+            
+            
             context = self.datasources.contexts.get_context(self.context_name)
             context_record = context.to_dict('records')[0]
 
             # parse harvested tweets from the premium tw api
             tw_df = pd.DataFrame.from_records([self.datasources.tw_api.parse_tweet(raw_tw) for raw_tw in stream])
+            print('tw_df dataframe')
+            print(tw_df.head)
             users = list(set(tw_df['user_name'].tolist() + tw_df['mentions'].sum()))
 
             number_of_expansions = 0

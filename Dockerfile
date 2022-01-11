@@ -18,4 +18,4 @@ COPY . .
 RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
 # run application
-CMD ["python", "./src/twitter-network-analysis.py"]
+CMD ["python", "./src/twitter-network-analysis.py","ethiopia"]

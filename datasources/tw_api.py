@@ -136,7 +136,7 @@ class TwApi:
         return self.premium_search(product=product, **kwargs)
 
     # https://developer.twitter.com/en/docs/tweets/search/api-reference/premium-search
-    def premium_search(self, product='fullarchive', label='prod', query='', since=None, until=None, n=100):
+    def premium_search(self, product='fullarchive', label='ethiodialogue', query='', since=None, until=None, n=100):
         logger.info(f'tw api search for: {query}')
 
         pager = TwitterPager(self.api, f'tweets/search/{product}/:{label}',

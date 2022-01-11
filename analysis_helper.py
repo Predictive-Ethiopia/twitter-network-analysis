@@ -225,7 +225,9 @@ class AnalysisHelper:
         return self.datasources.files.read('hashtags_vector', 'get_corr_users', 'corr_users', 'csv')
 
     def get_bow(self):
-        return self.datasources.files.read('hashtags_vector', 'get_users_hashtags_bow', 'users_hashtags_bow', 'csv')
+        df = self.datasources.files.read('bipartite_graph', 'get_user_hashtag_network', 'user_hashtag_network', 'csv')
+        #df.rename(columns={'user_names':'names'
+        return df.pivot_table(columns='hashtag', index='user_name',values='weight',aggfunc='sum',fill_value=0)
 
     def get_hashtags_network(self):
         return self.datasources.files.read('bipartite_graph', 'get_hashtag_network', 'hashtag_network', 'csv')

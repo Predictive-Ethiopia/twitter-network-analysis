@@ -60,7 +60,8 @@ class Files:
 
     def read(self, pipeline_name, stage_name, file_name, file_extension, file_prefix='', file_suffix=''):
         full_file_name = self.__get_full_file_name(file_name, file_extension, file_prefix, file_suffix)
-
+        print('datasource.files.read: full file name =  ',full_file_name)
+        
         try:
             file_model = self.model[pipeline_name][stage_name][full_file_name]
 
@@ -86,7 +87,8 @@ class Files:
               pipeline_name, stage_name, file_name, file_extension, file_prefix='', file_suffix=''):
         full_file_name = self.__get_full_file_name(file_name, file_extension, file_prefix, file_suffix)
         file_model = self.model[pipeline_name][stage_name][full_file_name]
-
+        
+        print('datasource.files.write: full file name =  ',full_file_name)
         if not os.path.exists(file_model['path_dir']):
             os.makedirs(file_model['path_dir'])
 

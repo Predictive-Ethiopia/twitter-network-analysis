@@ -90,7 +90,7 @@ class ContextDetector(PipelineBase):
         ]
         tasks = [self.__hashtags_frequency, self.__find_peaks,
                  self.__get_ranked_users_with_hashtags, self.get_new_contexts]
-        super(ContextDetector, self).__init__(
+        super().__init__(
             'context_detector', files, tasks, datasources)
 
     def __hashtags_frequency(self):
@@ -200,12 +200,20 @@ class ContextDetector(PipelineBase):
 
             nx.set_node_attributes(graph, dict(nx.degree(graph)), 'degree')
 
-            hashtag_communities = pd.DataFrame(
-                [{'hashtag': attr['name'],
+            list_rows = [{'hashtag': attr['name'],
                   'community': attr['community'],
                   'degree': attr['degree']}
                  for i, attr in graph.nodes(data=True)
-                 if attr['bipartite'] == 1]).set_index('hashtag', drop=True)
+                 if attr['bipartite'] == 1]   
+            
+            if len(list_rows)==0:
+                print(graph.nodes())
+                print( graph.nodes(data=True))
+                return None
+            
+            print('get_new_contexts',list_rows)
+            
+            hashtag_communities = pd.DataFrame(list_rows).set_index('hashtag', drop=True)
 
             hashtag_peaks = hashtag_peaks.merge(
                 hashtag_communities, left_on='hashtag', right_index=True)
